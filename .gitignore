@@ -1,0 +1,7 @@
+node_modules
+distribution
+.DS_Store
+package
+svtplay*.tgz
+npm-debug.log
+.vscode
