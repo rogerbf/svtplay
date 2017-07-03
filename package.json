@@ -39,5 +39,7 @@
     "distribution",
     "README.md"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "node-fetch": "^1.7.1"
+  }
 }
