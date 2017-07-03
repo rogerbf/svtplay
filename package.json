@@ -41,5 +41,13 @@
   ],
   "dependencies": {
     "node-fetch": "^1.7.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rogerbf/svtplay.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rogerbf/svtplay/issues"
+  },
+  "homepage": "https://github.com/rogerbf/svtplay#readme"
 }
