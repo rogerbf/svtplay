@@ -11,12 +11,14 @@ module.exports = {
   serverTime: `https://www.svtplay.se/api/server_time`,
   searchAutocompleteList: `https://www.svtplay.se/api/search_autocomplete_list`,
   video: `http://api.svt.se/videoplayer-api/video/{id}`,
-  title: `https://www.svtplay.se/api/title_by_episode?id={articleId}`,
+  titleByEpisode: `https://www.svtplay.se/api/title_by_episode?id={articleId}`,
   episode: `https://www.svtplay.se/api/episode?id={articleId}`,
   highlights: `https://www.svtplay.se/api/highlights?articleId={articleId}`,
   titleEpisodes: `https://www.svtplay.se/api/title_episodes_by_episode_article_id?articleId={articleId}`,
   titleClips: `https://www.svtplay.se/api/title_clips_by_episode_article_id?articleId={articleId}`,
   upcomingEpisodes: `https://www.svtplay.se/api/upcoming_episodes_by_title_article_id?articleId={articleId}`,
   similiar: `https://www.svtplay.se/api/similar_content_for_episode?id={id}`,
-  messages: `https://www.svtplay.se/api/important_messages`
+  messages: `https://www.svtplay.se/api/important_messages`,
+  channel: `https://api.svt.se/videoplayer-api/video/ch-{channel}`,
+  title: `https://www.svtplay.se/api/title?slug={slug}`
 }
