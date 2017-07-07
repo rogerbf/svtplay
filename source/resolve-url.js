@@ -12,7 +12,7 @@ module.exports = async (
   (
     parse(url).host === `www.svtplay.se`
     ? Promise.resolve(url)
-    : Promise.reject(Error(`incompatible url, expected host svtplay.se`))
+    : Promise.reject(Error(`invalid hostname`))
   )
   .then(url => {
     try {
@@ -28,7 +28,7 @@ module.exports = async (
         )
         .then(
           articleId => titleEpisodesByEpisodeArticleId({ articleId }),
-          () => Promise.reject(Error(`incompatible url`))
+          () => Promise.reject(Error(`invalid url`))
         )
       )
     }
