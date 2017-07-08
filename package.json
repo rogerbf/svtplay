@@ -41,7 +41,8 @@
   ],
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "node-fetch": "^1.7.1"
+    "node-fetch": "^1.7.1",
+    "readable-stream": "^2.3.3"
   },
   "repository": {
     "type": "git",
