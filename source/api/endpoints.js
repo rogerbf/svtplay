@@ -10,7 +10,7 @@ module.exports = [
   `https://www.svtplay.se/api/channel_page?now={now}`,
   `https://www.svtplay.se/api/server_time`,
   `https://www.svtplay.se/api/search_autocomplete_list`,
-  `http://api.svt.se/videoplayer-api/video/{id}`,
+  [ `video`, `http://api.svt.se/videoplayer-api/video/{id}` ],
   `https://www.svtplay.se/api/title_by_episode?id={articleId}`,
   `https://www.svtplay.se/api/episode?id={articleId}`,
   `https://www.svtplay.se/api/highlights?articleId={articleId}`,
