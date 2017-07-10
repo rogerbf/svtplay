@@ -1,14 +1,11 @@
 const fetch = require(`node-fetch`)
 const cheerio = require(`cheerio`)
 const { parse } = require(`url`)
+const { episode, titleEpisodesByEpisodeArticleId } = require(`./api`)
 
 const videoIdRegex = /\/video\/(\d*)(?=\/)/
 
-module.exports = async (
-  { episode, titleEpisodesByEpisodeArticleId },
-  url,
-  singleEpisode = url.match(videoIdRegex)
-) =>
+module.exports = async url =>
   (
     parse(url).host === `www.svtplay.se`
     ? Promise.resolve(url)
