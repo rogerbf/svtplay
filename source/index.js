@@ -1,6 +1,5 @@
 const api = require(`./api`)
-
-const resolve = require(`./resolve-url`).bind(null, api)
+const resolve = require(`./resolve-url`)
 
 module.exports = {
   api,
