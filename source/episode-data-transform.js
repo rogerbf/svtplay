@@ -1,4 +1,4 @@
-const { Transform } = require(`stream`)
+const { Transform } = require(`readable-stream`)
 const resolve = require(`./resolve-url`)
 
 module.exports = new Transform({
