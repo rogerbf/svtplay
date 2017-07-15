@@ -1,4 +1,4 @@
-const titleTypes = {
+const titleType = {
   MOVIE: ({ programTitle, year }) => `${programTitle}.${year}`,
   SERIES_OR_TV_SHOW: ({ programTitle, season, episodeNumber, year }) =>
     `${programTitle}.${year}.S${season}E${episodeNumber}`
@@ -6,7 +6,7 @@ const titleTypes = {
 
 module.exports = video => {
   try {
-    return titleTypes[video.titleType](video)
+    return titleType[video.titleType](video)
   } catch (error) {
     return video.id
   }
