@@ -1,3 +1,5 @@
+// https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/StreamingMediaGuide/FrequentlyAskedQuestions/FrequentlyAskedQuestions.html
+
 const profileCodecMap = Object.assign(
   Object.create(null),
   {
