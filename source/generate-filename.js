@@ -1,7 +1,8 @@
 const titleType = {
-  MOVIE: ({ programTitle, year }) => `${programTitle}.${year}`,
+  MOVIE: ({ programTitle, year }) =>
+    `${programTitle.replace(/\s/g, `.`)}.${year}.WEB-DL`,
   SERIES_OR_TV_SHOW: ({ programTitle, season, episodeNumber, year }) =>
-    `${programTitle}.${year}.S${season}E${episodeNumber}`
+    `${programTitle.replace(/\s/g, `.`)}.${year}.S${season}E${episodeNumber}.WEB-DL`
 }
 
 module.exports = video => {
