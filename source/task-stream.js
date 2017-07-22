@@ -18,8 +18,16 @@ const Queue = (options, { tasks = [], concurrency = 1 } = options) => {
   return stream
 }
 
-const runTask = (task, callback) => {
+const execute = (task, callback) => {
   switch (task.constructor.name) {
+    case `Function`:
+      execute(task(), callback)
+      break
+    case `Promise`:
+      task
+      .then(result => { callback(null, result) })
+      .catch(error => setImmediate(callback, error))
+      break
     default:
       callback(null, task)
   }
@@ -32,7 +40,7 @@ const TaskRunner = (options = {}, { concurrency = 1 } = options) => {
   })
 
   stream._transform = (task, encoding, callback) => {
-    runTask(task, callback)
+    execute(task, callback)
   }
 
   return stream
