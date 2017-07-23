@@ -1,47 +1,77 @@
-const { Readable, Transform } = require(`stream`)
+const { Readable, Transform, Duplex, Writable } = require(`stream`)
 
-const Queue = (options, { tasks = [], concurrency = 1 } = options) => {
-  const tasksCopy = [ ...tasks ]
-
+const Queue = (
+  options = { tasks: [], concurrency: 1 },
+  tasks = [ ...(options.tasks ? options.tasks : []) ],
+  concurrency = options.concurrency || 1
+) => {
   const stream = new Readable({
     objectMode: true,
     highWaterMark: concurrency
   })
 
   stream._read = () => {
-    const nextTask = tasksCopy.shift()
-    nextTask !== undefined
-    ? stream.push(nextTask)
-    : stream.push(null)
+    let task = tasks.shift()
+    if (task) {
+      stream.push(task)
+    } else {
+      stream.push(null)
+    }
   }
 
   return stream
 }
 
-const execute = (task, callback) => {
+const execute = ({ stream, task, callback }) => {
   switch (task.constructor.name) {
     case `Function`:
-      execute(task(), callback)
+      try {
+        execute({ stream, task: task(), callback })
+      } catch (error) {
+        callback(error)
+      }
       break
     case `Promise`:
       task
-      .then(result => { callback(null, result) })
+      .then(success => {
+        stream.push(success)
+        callback()
+      })
       .catch(error => setImmediate(callback, error))
       break
     default:
-      callback(null, task)
+      stream.push(task)
+      callback()
+      break
   }
 }
 
 const TaskRunner = (options = {}, { concurrency = 1 } = options) => {
-  const stream = new Transform({
+  const stream = new Duplex({
     objectMode: true,
     highWaterMark: concurrency
   })
 
-  stream._transform = (task, encoding, callback) => {
-    execute(task, callback)
+  stream._write = (task, encoding, callback) => {
+    if (task.constructor.name === `TaskStream`) {
+      task.pipe(new Writable({
+        objectMode: true,
+        highWaterMark: concurrency,
+        write: (data, encoding, done) => {
+          data && stream.push(data)
+          done()
+        },
+        final: done => {
+          callback()
+          done()
+        }
+      }))
+    } else {
+      execute({ stream, task, callback })
+    }
   }
+
+  stream._read = () => {}
 
   return stream
 }
