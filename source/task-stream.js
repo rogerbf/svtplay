@@ -39,6 +39,17 @@ const execute = ({ stream, task, callback }) => {
       })
       .catch(error => setImmediate(callback, error))
       break
+    case `TaskStream`:
+      const writer = new Writable({
+        objectMode: true,
+        write: (data, encoding, done) => {
+          data && stream.push(data)
+          done()
+        }
+      })
+      task.on(`finish`, () => callback())
+      task.pipe(writer)
+      break
     default:
       stream.push(task)
       callback()
@@ -53,20 +64,7 @@ const TaskRunner = (options = {}, { concurrency = 1 } = options) => {
   })
 
   stream._write = (task, encoding, callback) => {
-    if (task.constructor.name === `TaskStream`) {
-      const writer = new Writable({
-        objectMode: true,
-        highWaterMark: concurrency,
-        write: (data, encoding, done) => {
-          data && stream.push(data)
-          done()
-        }
-      })
-      task.on(`finish`, () => callback())
-      task.pipe(writer)
-    } else {
-      execute({ stream, task, callback })
-    }
+    execute({ stream, task, callback })
   }
 
   stream._read = () => {}
