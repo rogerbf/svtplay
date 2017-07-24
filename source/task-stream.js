@@ -54,18 +54,16 @@ const TaskRunner = (options = {}, { concurrency = 1 } = options) => {
 
   stream._write = (task, encoding, callback) => {
     if (task.constructor.name === `TaskStream`) {
-      task.pipe(new Writable({
+      const writer = new Writable({
         objectMode: true,
         highWaterMark: concurrency,
         write: (data, encoding, done) => {
           data && stream.push(data)
           done()
-        },
-        final: done => {
-          callback()
-          done()
         }
-      }))
+      })
+      task.on(`finish`, () => callback())
+      task.pipe(writer)
     } else {
       execute({ stream, task, callback })
     }
