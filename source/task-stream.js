@@ -1,4 +1,4 @@
-const { Readable, Transform, Duplex, Writable } = require(`stream`)
+const { Readable, Duplex, Writable } = require(`stream`)
 
 const Queue = (
   options = { tasks: [], concurrency: 1 },
@@ -22,11 +22,11 @@ const Queue = (
   return stream
 }
 
-const execute = ({ stream, task, callback }) => {
+const processTask = ({ stream, task, callback }) => {
   switch (task.constructor.name) {
     case `Function`:
       try {
-        execute({ stream, task: task(), callback })
+        processTask({ stream, task: task(), callback })
       } catch (error) {
         callback(error)
       }
@@ -64,7 +64,7 @@ const TaskRunner = (options = {}, { concurrency = 1 } = options) => {
   })
 
   stream._write = (task, encoding, callback) => {
-    execute({ stream, task, callback })
+    processTask({ stream, task, callback })
   }
 
   stream._read = () => {}
