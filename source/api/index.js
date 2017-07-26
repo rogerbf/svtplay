@@ -1,6 +1,6 @@
+const endpoints = require(`./endpoints`)
 const fetch = require(`node-fetch`)
 const { escape } = require(`querystring`)
-const endpoints = require(`./endpoints`)
 const { parse } = require(`url`)
 
 const request = (url, query = {}) =>
