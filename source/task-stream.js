@@ -1,4 +1,4 @@
-const { Readable, Duplex, Writable } = require(`stream`)
+const { Readable, Duplex, Writable } = require(`readable-stream`)
 
 const Queue = (
   options = { tasks: [], concurrency: 1 },
