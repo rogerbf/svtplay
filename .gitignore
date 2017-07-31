@@ -5,3 +5,4 @@ package
 svtplay*.tgz
 npm-debug.log
 .vscode
+scratch
