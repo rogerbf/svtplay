@@ -1,3 +1,5 @@
+// https://tools.ietf.org/html/draft-pantos-http-live-streaming-06#page-4
+
 const parseValue = (attribute, value) => {
   const attributeSpecificValueParsers = {
     RESOLUTION: value => {
