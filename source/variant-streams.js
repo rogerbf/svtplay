@@ -1,4 +1,5 @@
 // https://tools.ietf.org/html/draft-pantos-http-live-streaming-06#page-4
+const get = require(`./get`)
 
 const parseValue = (attribute, value) => {
   const attributeSpecificValueParsers = {
@@ -33,18 +34,23 @@ const parseAttributeList = line =>
     )
   }, {})
 
-module.exports = (m3u8 = ``) =>
-  m3u8.split(`\n`)
-  .slice(2)
-  .filter(line => line.length > 0)
-  .map(line => line.trim())
-  .reduce(
-    (all, line) =>
-      /^#EXT-X-STREAM-INF/.test(line)
-      ? [ ...all, parseAttributeList(line) ]
-      : [
-        ...all.slice(0, -1),
-        Object.assign({}, all.slice(-1).pop(), { URI: line })
-      ],
-    []
+module.exports = async url => {
+  const playlist = await get(url)
+
+  return (
+    playlist.split(`\n`)
+    .slice(2)
+    .filter(line => line.length > 0)
+    .map(line => line.trim())
+    .reduce(
+      (all, line) =>
+        /^#EXT-X-STREAM-INF/.test(line)
+        ? [ ...all, parseAttributeList(line) ]
+        : [
+          ...all.slice(0, -1),
+          Object.assign({}, all.slice(-1).pop(), { URI: line })
+        ],
+      []
+    )
   )
+}
